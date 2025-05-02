@@ -1,1 +1,11 @@
-#+TITLE: index
+#+title: Index
+#+HUGO_BASE_DIR: ../content
+
+* Homepage
+:PROPERTIES:
+:EXPORT_HUGO_SECTION: /
+:EXPORT_FILE_NAME: _index
+:END:
+
+
+It is the truth which conceals that there is none...
