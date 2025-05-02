@@ -1,3 +1,11 @@
 languageCode = 'en-us'
 title = 'Uppfyll'
 baseURL = 'https://uppfyll.com/'
+theme = "hugoplate"
+
+[build.buildStats]
+  enable = true
+
+[outputs]
+  home = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]

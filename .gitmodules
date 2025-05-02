@@ -1,0 +1,3 @@
+[submodule "content/themes/hugoplate"]
+	path = content/themes/hugoplate
+	url = git@github.com:Uppfylla/hugoplate.git
