@@ -1,0 +1,69 @@
+name: Publish Changes
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Clone dependencies
+        run: |
+          git clone https://github.com/kaushalmodi/ox-hugo.git ox-hugo
+          git clone https://github.com/kaushalmodi/tomelr tomelr
+      - name: Setup emacs
+        uses: purcell/setup-emacs@master
+        with:
+          version: 28.2
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+      - name: Export Org file to Markdown
+        run: |
+          yes | emacs ./content/org/index.org --batch -L $(pwd)/tomelr -L $(pwd)/ox-hugo -l $(pwd)/ox-hugo/ox-hugo.el --eval='(org-hugo-export-wim-to-md t)' --kill
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.125.0'
+          extended: true # Required for SCSS/SASS
+      - name: Build with Hugo
+        working-directory: ./content
+        env:
+          # For maximum backward compatibility with Hugo modules
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
+        run: |
+          hugo \
+            --minify \
+            --baseURL "${{ steps.pages.outputs.base_url }}/"
+      - name: Upload artifact
+        id: upload-artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./content/public
+  deploy:
+    if: ${{ github.event_name == 'push' }}
+    needs: build
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write
+      id-token: write
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
