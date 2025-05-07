@@ -39,9 +39,6 @@ jobs:
           wget -O ${{ runner.temp }}/go.deb https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz \
           && sudo tar -C /usr/local -xzf ${{ runner.temp }}/go.deb
 
-      - name: Setup Project
-        run: npm run project-setup
-
       - name: Install npm dependencies
         run: npm install
 
