@@ -1,0 +1,38 @@
+name = "Uppfylla"
+license = "MIT"
+licenselink = "https://github.com/uppfylla/uppfylla.github.io/blob/main/LICENSE"
+description = "Website built with Hugoplate, we do not intend to claim any frontend belonging to Uppfylla. Please check https://github.com/zeon-studio/hugoplate for more information."
+homepage = "https://uppfyll.com"
+min_version = "0.141.0"
+
+tags = [
+  "blog",
+  "responsive",
+  "minimal",
+  "personal",
+  "light",
+  "dark",
+  "multilingual",
+  "landing",
+  "contact",
+  "dark mode",
+  "tailwindcss",
+]
+
+features = [
+  "Multi-Authors",
+  "Search",
+  "Multilingual",
+  "Dark Mode",
+  "Taxonomies",
+]
+
+[author]
+name = "admin"
+homepage = "https://uppfyll.com"
+
+# Original template 
+[original]
+author = "Zeon Studio"
+homepage = "https://zeon.studio"
+repo = "https://github.com/zeon-studio/themeplate"

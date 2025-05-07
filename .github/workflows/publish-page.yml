@@ -4,6 +4,9 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+env:
+  HUGO_ENV: production
+  GO_VERSION: "1.23.3"
 
 jobs:
   # Build job
@@ -11,9 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 0
       - name: Clone dependencies
         run: |
           git clone https://github.com/kaushalmodi/ox-hugo.git ox-hugo
@@ -31,18 +31,23 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: '0.125.0'
+          hugo-version: '0.141.0'
           extended: true # Required for SCSS/SASS
-      - name: Build with Hugo
-        working-directory: ./content
-        env:
-          # For maximum backward compatibility with Hugo modules
-          HUGO_ENVIRONMENT: production
-          HUGO_ENV: production
+      
+      - name: Install Go
         run: |
-          hugo \
-            --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/"
+          wget -O ${{ runner.temp }}/go.deb https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz \
+          && sudo tar -C /usr/local -xzf ${{ runner.temp }}/go.deb
+
+      - name: Setup Project
+        run: npm --prefix ./content run project-setup
+
+      - name: Install npm dependencies
+        run: npm --prefix ./content install
+
+      - name: Build site
+        run: npm --prefix ./content run build
+
       - name: Upload artifact
         id: upload-artifact
         uses: actions/upload-pages-artifact@v3
