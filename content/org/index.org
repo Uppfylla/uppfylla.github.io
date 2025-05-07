@@ -9,3 +9,35 @@
 
 
 It is the truth which conceals that there is none...
+
+* Banner
+:PROPERTIES:
+:title: Uppfylla
+:content: Uppfylla provides automation services to enable your company comply with ...
+:image: /images/banner.png
+:END:
+
+** Button
+:PROPERTIES:
+:enable: true
+:label: Available services
+:link: https://uppfyll.com/services
+:END:
+
+
+* Features
+
+** What do we do?
+:PROPERTIES:
+:image: /images/service-1.png
+:content: ...
+:END:
+*** Bulletpoints
+- *Open-source and free* for personal and commercial use
+
+*** Button
+:PROPERTIES:
+:enable: false
+:label: Get Started Now
+:link: #
+:END:
