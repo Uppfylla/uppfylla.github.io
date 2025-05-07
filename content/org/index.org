@@ -1,5 +1,5 @@
 #+title: Index
-#+HUGO_BASE_DIR: ../content
+#+HUGO_BASE_DIR: ../content/english
 
 * Homepage
 :PROPERTIES:
