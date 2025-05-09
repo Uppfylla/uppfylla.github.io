@@ -36,3 +36,4 @@ go.sum
 yarn.lock
 
 content/content
+*.xcf
