@@ -1,44 +1,46 @@
 #+title: Index
 #+HUGO_BASE_DIR: ../content/english
 #+HUGO_SECTION: /
+#+EXPORT_FILE_NAME: _index
+#+hugo_front_matter_format: yaml
+#+begin_src yaml :front_matter_extra t
+# Banner
+banner:
+  title: "Uppfylla"
+  content: "Uppfyll provides automation and validation services for you and your company in order to ..."
+  image: "/images/banner.png"
+  button:
+    enable: true
+    label: "See available services"
+    link: "https://uppfyll.com/services"
 
-* Homepage
-:PROPERTIES:
-:EXPORT_HUGO_SECTION: /
-:EXPORT_FILE_NAME: _index
-:END:
+# Features
+features:
+  - title: "Discover Mimikry"
+    image: "/images/service-1.png"
+    content: "Mimikry is a comprehensive load testing framework to"
+    bulletpoints:
+      - "**Open-source and free** for personal and commercial use"
+      - "Written in zig..."
+      - "Supports all common platforms"
+      - "Integrates well with CI."
+      - "Exposes C API."
+    button:
+      enable: false
+      label: "Learn more"
+      link: "#"
 
+  - title: "For real estate agents, automate your leads."
+    image: "/images/service-2.png"
+    content: "An all-in-one application for Japanese real estate property hunting. Some of the key features are:"
+    bulletpoints:
+      - "Reins integration, "
+      - "Watchlists and AI property suggestions."
+      - "Notifications through LINE, email or ..., don't miss out on opporunities again..."
+    button:
+      enable: true
+      label: "Contact us"
+      link: "https://uppfyll.com/contact"
+#+end_src
 
 It is the truth which conceals that there is none...
-
-* Banner
-:PROPERTIES:
-:title: Uppfylla
-:content: Uppfylla provides automation services to enable your company comply with ...
-:image: /images/banner.png
-:END:
-
-** Button
-:PROPERTIES:
-:enable: true
-:label: Available services
-:link: https://uppfyll.com/services
-:END:
-
-
-* Features
-
-** What do we do?
-:PROPERTIES:
-:image: /images/service-1.png
-:content: ...
-:END:
-*** Bulletpoints
-- *Open-source and free* for personal and commercial use
-
-*** Button
-:PROPERTIES:
-:enable: false
-:label: Get Started Now
-:link: #
-:END:

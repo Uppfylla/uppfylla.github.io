@@ -1,9 +1,12 @@
 #+title: About
 #+HUGO_BASE_DIR: ../content/english
 #+HUGO_SECTION: about
+#+hugo_front_matter_format: yaml
+#+begin_src yaml :front_matter_extra t
+meta_title: "About"
+description: "uppfyll your potental."
+image: "/images/avatar.png"
+draft: false
+#+end_src
 
-* About
-:PROPERTIES:
-:EXPORT_HUGO_SECTION: /about
-:EXPORT_FILE_NAME: _index
-:END:
+Content ....
