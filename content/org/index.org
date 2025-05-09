@@ -7,7 +7,7 @@
 # Banner
 banner:
   title: "Uppfyll"
-  content: "Automate the busywork—free up your development time before management asks for next miracle.”
+  content: "Automate the busywork—free up your development time before management asks for next miracle."
   image: "/images/banner.png"
   button:
     enable: true
@@ -18,7 +18,7 @@ banner:
 features:
   - title: "Discover Mimikry"
     image: "/images/service-1.png"
-    content: "Mimikry delivers end-to-end load testing via a flexible simulation engine—define your own nodes, plug in your logic, and stress-test at scale.”
+    content: "Mimikry delivers end-to-end load testing via a flexible simulation engine—define your own nodes, plug in your logic, and stress-test at scale."
     bulletpoints:
       - "**Open-source & free** for both personal and commercial use."
       - "Written in Zig for **lightweight, high-performance, memory-safe code.**"
@@ -31,7 +31,7 @@ features:
       label: "Learn more"
       link: "#"
 
-  - title: “From Search to Lead—Automate Your Real-Estate Workflow."
+  - title: "From Search to Lead—Automate Your Real-Estate Workflow."
     image: "/images/service-2.png"
     content: "An all-in-one application for Japanese real estate property hunting. Some of the key features are:"
     bulletpoints:
