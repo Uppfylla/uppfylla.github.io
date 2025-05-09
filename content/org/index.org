@@ -6,8 +6,8 @@
 #+begin_src yaml :front_matter_extra t
 # Banner
 banner:
-  title: "Uppfylla"
-  content: "Uppfyll provides automation and validation services for you and your company in order to ..."
+  title: "Uppfyll"
+  content: "Automate the busywork—free up your development time before management asks for next miracle.”
   image: "/images/banner.png"
   button:
     enable: true
@@ -18,25 +18,28 @@ banner:
 features:
   - title: "Discover Mimikry"
     image: "/images/service-1.png"
-    content: "Mimikry is a comprehensive load testing framework to"
+    content: "Mimikry delivers end-to-end load testing via a flexible simulation engine—define your own nodes, plug in your logic, and stress-test at scale.”
     bulletpoints:
-      - "**Open-source and free** for personal and commercial use"
-      - "Written in zig..."
-      - "Supports all common platforms"
-      - "Integrates well with CI."
-      - "Exposes C API."
+      - "**Open-source & free** for both personal and commercial use."
+      - "Written in Zig for **lightweight, high-performance, memory-safe code.**"
+      - "Cross-platform support (Linux, macOS, Windows, and others)."
+      - "CI-friendly integration—seamlessly fits into your build and test pipelines."
+      - "C API exposure for easy embedding in any language or environment."
+      - "Highly scalable architecture—runs from single-node tests up to large, distributed clusters"
     button:
-      enable: false
+      enable: true 
       label: "Learn more"
       link: "#"
 
-  - title: "For real estate agents, automate your leads."
+  - title: “From Search to Lead—Automate Your Real-Estate Workflow."
     image: "/images/service-2.png"
     content: "An all-in-one application for Japanese real estate property hunting. Some of the key features are:"
     bulletpoints:
-      - "Reins integration, "
-      - "Watchlists and AI property suggestions."
-      - "Notifications through LINE, email or ..., don't miss out on opporunities again..."
+      - "**Reins integration** - direct access to Japan’s primary real-estate database for up-to-the-minute listings."
+      - "Automated Alerts & AI-Powered Discovery - Define your search filters once and receive real-time notifications—while our AI continuously scans other areas to surface similar properties you might’ve missed."
+      - "**Multi-channel alerts** - Never miss an opportunity—get real-time notifications via LINE, email, or SMS."
+      - "**Lead automation** - Automatically capture and organize inquiries so you can focus on closing deals."
+      - "**Custom Reporting & Analytics** - Gain insights into your search performance and market trends."
     button:
       enable: true
       label: "Contact us"
