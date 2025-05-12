@@ -57,7 +57,7 @@ show_categories = true
 [announcement]
 enable = true
 expire_days = 7
-content = "We are listening, please send any inquiries or feedback to admin@uppfyll.com"
+content = "We'd like your feedback, please send any inquiries or feedback to info@uppfyll.com"
 
 # seo meta data for OpenGraph / Twitter Card
 # seo module: https://github.com/gethugothemes/hugo-modules/tree/master/seo-tools/basic-seo
