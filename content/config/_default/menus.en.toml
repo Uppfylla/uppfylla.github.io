@@ -30,6 +30,7 @@ parent = "Pages"
 name = "Categories"
 url = "/categories"
 
+
 [[main]]
 parent = "Pages"
 name = "Contact"
@@ -37,8 +38,9 @@ url = "/contact"
 
 [[main]]
 parent = "Pages"
-name = "The team"
-url = "/team"
+name = "Meet the team"
+url = "/authors"
+
 
 # footer menu
 [[footer]]
