@@ -10,8 +10,8 @@ image: "/images/avatar.png"
 draft: false
 #+end_src
 
-Firefights, post-mortems, and countless management warnings that “this feature will break production”—we’ve seen how untested code effortlessly sneaks into production, only to trigger rushed, stacked patches and customer complaints. If that doesn’t sound familiar, you’re doing something right.
+Firefights, post-mortems, and countless warnings to management that “this feature will break production”—we’ve experienced firsthand how untested code effortlessly sneaks into production, only to trigger rushed, stacked patches and customer complaints. If this doesn’t sound familiar, you’re doing something right.
 
-We believe that what benefits the system benefits every maintainer; so we made it our mission to build reliable automation frameworks. We’ve collaborated with teams across industries to bake automation into their workflows, and we’ve watched developers shift from survival mode to true development.
+We believe that what benefits the implementation benefits the maintainer; so we made it our mission to build reliable automation frameworks. We’ve collaborated with teams across industries to bake automation into their workflows, and we’ve watched developers shift from survival mode to true development.
 
 Transparency is crucial; we’re not perfect, but our intentions are clear—and we’ll keep iterating until automation works seamlessly for every team.
