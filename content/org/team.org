@@ -1,0 +1,27 @@
+#+title: Team
+#+HUGO_BASE_DIR: ../content/english
+#+HUGO_SECTION: team
+#+EXPORT_FILE_NAME: _index
+#+hugo_front_matter_format: yaml
+* Admin [TODO]
+:PROPERTIES:
+:EXPORT_FILE_NAME: admin
+#+begin_src yaml :front_matter_extra t
+email: admin@uppfyll.com
+image: "/images/avatar.png"
+description: this is meta description
+social:
+  - name: github
+    icon: fa-brands fa-github
+    link: https://github.com/uppfyll
+
+  - name: twitter
+    icon: fa-brands fa-twitter
+    link: https://twitter.com/dXBwZnlsbGE
+
+  - name: linkedin
+    icon: fa-brands fa-linkedin
+    link: https://linkedin.com
+#+end_src
+:END:
+lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostr navigation et dolore magna aliqua.

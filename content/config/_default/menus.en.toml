@@ -37,9 +37,8 @@ url = "/contact"
 
 [[main]]
 parent = "Pages"
-name = "404 Page"
-url = "/404"
-
+name = "The team"
+url = "/team"
 
 # footer menu
 [[footer]]
