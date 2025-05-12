@@ -1,6 +1,7 @@
 #+title: About
 #+HUGO_BASE_DIR: ../content/english
 #+HUGO_SECTION: about
+#+EXPORT_FILE_NAME: _index
 #+hugo_front_matter_format: yaml
 #+begin_src yaml :front_matter_extra t
 meta_title: "About"
@@ -9,4 +10,8 @@ image: "/images/avatar.png"
 draft: false
 #+end_src
 
-Content ....
+Firefights, post-mortems, and countless management warnings that “this feature will break production”—we’ve seen how untested code effortlessly sneaks into production, only to trigger rushed, stacked patches and customer complaints. If that doesn’t sound familiar, you’re doing something right.
+
+We believe that what benefits the system benefits every maintainer; so we made it our mission to build reliable automation frameworks. We’ve collaborated with teams across industries to bake automation into their workflows, and we’ve watched developers shift from survival mode to true development.
+
+Transparency is crucial; we’re not perfect, but our intentions are clear—and we’ll keep iterating until automation works seamlessly for every team.
