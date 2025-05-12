@@ -6,5 +6,4 @@
 #+begin_src yaml :front_matter_extra t
 meta_title: ""
 description: "Please contact us for any inquiries."
-draft: false
 #+end_src
