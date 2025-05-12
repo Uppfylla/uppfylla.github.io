@@ -29,6 +29,8 @@ jobs:
         run: |
           yes | emacs ./content/org/index.org --batch -L $(pwd)/tomelr -L $(pwd)/ox-hugo -l $(pwd)/ox-hugo/ox-hugo.el --eval='(org-hugo-export-wim-to-md t)' --kill
           yes | emacs ./content/org/about.org --batch -L $(pwd)/tomelr -L $(pwd)/ox-hugo -l $(pwd)/ox-hugo/ox-hugo.el --eval='(org-hugo-export-wim-to-md t)' --kill
+          yes | emacs ./content/org/contact.org --batch -L $(pwd)/tomelr -L $(pwd)/ox-hugo -l $(pwd)/ox-hugo/ox-hugo.el --eval='(org-hugo-export-wim-to-md t)' --kill
+          yes | emacs ./content/org/team.org --batch -L $(pwd)/tomelr -L $(pwd)/ox-hugo -l $(pwd)/ox-hugo/ox-hugo.el --eval='(org-hugo-export-wim-to-md t)' --kill
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
