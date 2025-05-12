@@ -55,15 +55,15 @@ show_categories = true
 # announcement
 # announcement module: https://github.com/gethugothemes/hugo-modules/tree/master/components/announcement
 [announcement]
-enable = false
+enable = true
 expire_days = 7
-content = "This is an announcement."
+content = "We are listening, please send any inquiries or feedback to admin@uppfyll.com"
 
 # seo meta data for OpenGraph / Twitter Card
 # seo module: https://github.com/gethugothemes/hugo-modules/tree/master/seo-tools/basic-seo
 [metadata]
-keywords = ["Mqtt", "IOT", "Automation", "Testing", "Zenoh", "",]
-description = "IOT automation and testing services"
+keywords = ["Mqtt", "IOT", "Automation", "Testing", "Zenoh", "Simulation", "Validation"]
+description = "Automation and testing services"
 author = "@uguisuno"
 twitter = "dXBwZnlsbGE"
 image = "images/og-image.png"
