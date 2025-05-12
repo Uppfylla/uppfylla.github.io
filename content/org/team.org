@@ -1,11 +1,22 @@
 #+title: Team
 #+HUGO_BASE_DIR: ../content/english
-#+HUGO_SECTION: team
-#+EXPORT_FILE_NAME: _index
-#+hugo_front_matter_format: yaml
+
+* Team
+:PROPERTIES:
+:EXPORT_FILE_NAME: _index
+:EXPORT_HUGO_SECTION: team
+:EXPORT_HUGO_FRONT_MATTER_FORMAT: yaml
+:END:
+
+#+begin_src yaml :front_matter_extra t
+#+end_src
+
 * Admin [TODO]
 :PROPERTIES:
 :EXPORT_FILE_NAME: admin
+:EXPORT_HUGO_SECTION: team
+:EXPORT_HUGO_FRONT_MATTER_FORMAT: yaml
+:END:
 #+begin_src yaml :front_matter_extra t
 email: admin@uppfyll.com
 image: "/images/avatar.png"
