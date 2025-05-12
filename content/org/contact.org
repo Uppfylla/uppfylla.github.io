@@ -1,0 +1,10 @@
+#+title: Contact
+#+HUGO_BASE_DIR: ../content/english
+#+HUGO_SECTION: contact
+#+EXPORT_FILE_NAME: _index
+#+hugo_front_matter_format: yaml
+#+begin_src yaml :front_matter_extra t
+meta_title: ""
+description: "Please contact us for any inquiries."
+draft: false
+#+end_src

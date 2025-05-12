@@ -27,6 +27,11 @@ url = "/blog"
 
 [[main]]
 parent = "Pages"
+name = "Categories"
+url = "/categories"
+
+[[main]]
+parent = "Pages"
 name = "Contact"
 url = "/contact"
 
