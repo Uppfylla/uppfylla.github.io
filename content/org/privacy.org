@@ -1,7 +1,7 @@
 #+title: Privacy Policy
 #+HUGO_BASE_DIR: ../content/english
 #+HUGO_SECTION: pages
-#+EXPORT_FILE_NAME: privacy
+#+EXPORT_FILE_NAME: privacy-policy
 #+hugo_front_matter_format: yaml
 #+begin_src yaml :front_matter_extra t
 meta_title: ""

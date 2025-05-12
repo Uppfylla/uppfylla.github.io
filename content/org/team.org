@@ -11,7 +11,7 @@
 #+begin_src yaml :front_matter_extra t
 #+end_src
 
-* Admin [TODO]
+* W L
 :PROPERTIES:
 :EXPORT_FILE_NAME: admin
 :EXPORT_HUGO_SECTION: team

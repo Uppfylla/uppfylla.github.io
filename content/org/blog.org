@@ -1,0 +1,290 @@
+#+title: Blog
+#+HUGO_BASE_DIR: ../content/english
+
+* Blog
+:PROPERTIES:
+:EXPORT_FILE_NAME: _index
+:EXPORT_HUGO_SECTION: blog
+:EXPORT_HUGO_FRONT_MATTER_FORMAT: yaml
+:END:
+#+begin_src yaml :front_matter_extra t
+meta_title: ""
+description: "Blog posts."
+#+end_src
+
+* How to build static websites using org-mode, hugo and github actions.
+:PROPERTIES:
+:EXPORT_FILE_NAME: how-to-build-with-hugo
+:EXPORT_HUGO_SECTION: blog
+:EXPORT_HUGO_FRONT_MATTER_FORMAT: yaml
+:END:
+
+#+begin_src yaml :front_matter_extra t
+meta_title: "hugo website, org-mode in github actions."
+description: "The post describes how to build a website using org-mode, applying theme using hugo and deploying to github pages. Using concept such as literate programming"
+date: 2025-05-12
+categories: ["Literate"]
+author: "W L"
+tags: ["hugo", "emacs", "org-mode", "github", "actions"]
+draft: false
+#+end_src
+
+There’s no shortage of website building frameworks, however this post is for the stubborn and maybe the lazy—who'd like to write everything in `org-mode` and automate the rest. What follows is a practical (though not optimal) way of building a static website using Org-mode, Hugo, and GitHub Actions.
+
+The goal with the post is just to demonstrate that it's possible to publish a website without leaving emacs, not to find an optimal way. 
+
+We will explore the idea of using [[https://gohugo.io][hugo]] and `org-mode` to quickly build websites, and then deploy them to GitHub Pages using GitHub Actions.
+
+** Assumptions
+
+This guide assumes you’re familiar with Emacs, Git, and some basics of Hugo and GitHub Actions. It also assumes you’re comfortable installing dependencies. There are plenty of resources online to help you get started.
+
+** Structure
+
+There is, of course, not just one way to organize your project. However, here’s a structure that works well when integrating with Org-mode.
+
+#+begin_src text
+.
+├── content
+│   ├── config
+│   │   └── _default
+│   │       └── Your hugo configs goes here.
+│   ├── hugo.toml ;; Your project specific configs
+│   ├── org
+│   │   ├── index.org
+│   │   └── org files goes here.
+│   └── themes
+│       └── theme-name ;; As submodule.
+├── LICENSE
+└── README.org ;; Imagine using markdown ;)
+#+end_src
+
+Follow your theme’s instructions for setup. As long as you place your `.org` content in the `org` directory, you’ll be able to export everything you need.
+
+** Hugo
+
+Start by picking a theme, for example by exploring https://themes.gohugo.io. 
+
+Unless you plan to modify the template, adding the theme as a submodule is recommended.
+
+#+begin_src shell
+git submodule add -b main https://<THEME_URL>.git themes/<THEME_NAME>
+#+end_src
+
+Next, configure `content/hugo.toml`:
+
+#+begin_src toml
+languageCode = 'en-us'
+title = 'demo'
+theme = "archie" # For example
+#+end_src
+
+Theme-specific options often live in `./content/config/_default/`. You can edit for example params:
+
+#+begin_src toml
+# ./content/config/_default/params.toml
+# These params might be generic or theme specific.
+favicon = "images/favicon.png"
+#..
+#..
+# E.g. theme specific Announcement
+# https://github.com/gethugothemes/hugo-modules/tree/master/components/announcement
+[announcement]
+enable = true
+expire_days = 7
+content = "The grass is not greener on the other side."
+#+end_src
+
+*** How to build ?
+
+There are multiple ways to build a Hugo site. The simplest is using the Hugo CLI: https://gohugo.io/commands/hugo_build/. We’ll also look at how to build and deploy with GitHub Actions.
+
+** Org-mode
+
+Now that we’ve set up and tweaked the site, let’s start adding content.
+
+*** Prerequisites
+
++ [[https://ox-hugo.scripter.co/][ox-hugo]] – exports Org to Hugo-flavored Markdown  
++ [[https://orgmode.org/][org-mode]] – the mode 
+
+*** Exporting content
+
+Here’s how to create the homepage with a `_index.md`:
+
+#+begin_src org
+#+title: Index
+#+HUGO_BASE_DIR: ../content/
+#+HUGO_SECTION: /
+#+EXPORT_FILE_NAME: _index
+
+Recognize untruth as a condition of life...
+#+end_src
+
+Export using Emacs:
+
+#+begin_src emacs-lisp :results none
+(org-hugo-export-wim-to-md t)
+#+end_src
+
+
+This will create `./content/content/_index.md`. Yes, the naming should maybe be reconsidered, but it works for our demonstration.
+
+*** Custom Front Matter
+
+Need theme-specific front matter (e.g., YAML)? You can use the `hugo_front_matter_format:` property:
+
+#+begin_src emacs-lisp
+#+title: Index
+#+HUGO_BASE_DIR: ../content/english
+#+HUGO_SECTION: /
+#+EXPORT_FILE_NAME: _index
+#+hugo_front_matter_format: yaml
+\\#+begin_src yaml :front_matter_extra t
+banner:
+  title: "Demo"
+  button:
+    enable: true
+\\#+end_src
+#+end_src
+
+** Automating with GitHub Pages
+
+*** Step 1: Checkout Repo and Setup GitHub Pages
+
+#+begin_src yaml
+name: Publish Changes
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+env:
+  HUGO_ENV: production
+  GO_VERSION: "1.23.3"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+#+end_src
+
+*** Step 2: Export Org Files on the Runner
+
+We clone the necessary Emacs packages and run Emacs in batch mode.
+
+#+begin_src yaml
+- name: Clone dependencies
+  run: |
+    git clone https://github.com/kaushalmodi/ox-hugo.git ox-hugo
+    git clone https://github.com/kaushalmodi/tomelr tomelr
+- name: Setup emacs
+  uses: purcell/setup-emacs@master
+  with:
+    version: 28.2
+- name: Export Org file to Markdown
+  run: |
+    yes | emacs ./content/org/index.org --batch -L $(pwd)/tomelr -L $(pwd)/ox-hugo -l $(pwd)/ox-hugo/ox-hugo.el --eval='(org-hugo-export-wim-to-md t)' --kill
+#+end_src
+
+Want to process all `.org` files?
+
+#+begin_src shell
+- name: Export Org files to Markdown
+  run: |
+    for f in ./content/org/*.org; do
+      emacs "$f" --batch \
+        -L "$(pwd)/tomelr" \
+        -L "$(pwd)/ox-hugo" \
+        -l "$(pwd)/ox-hugo/ox-hugo.el" \
+        --eval='(org-hugo-export-wim-to-md t)' \
+        --kill
+    done
+#+end_src
+
+*** Step 3: Run Hugo
+
+A standard Hugo build step:
+
+#+name: setup
+#+begin_src yaml
+- name: Setup Hugo
+  uses: peaceiris/actions-hugo@v3
+  with:
+    hugo-version: '0.125.0'
+    extended: true
+#+end_src
+
+#+name: build
+#+begin_src yaml
+- name: Build with Hugo
+  working-directory: ./content
+  env:
+    HUGO_ENVIRONMENT: production
+    HUGO_ENV: production
+  run: |
+    hugo \
+      --minify \
+      --baseURL "${{ steps.pages.outputs.base_url }}/"
+#+end_src
+
+Alternative with npm:
+
+#+begin_src yaml
+- name: Setup Hugo
+  uses: peaceiris/actions-hugo@v3
+  with:
+    hugo-version: '0.141.0'
+    extended: true
+- name: Install Go
+  run: |
+    wget -O ${{ runner.temp }}/go.deb https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz \
+    && sudo tar -C /usr/local -xzf ${{ runner.temp }}/go.deb
+- name: Install npm dependencies
+  run: npm --prefix ./content install
+- name: Build site
+  run: npm --prefix ./content run build
+#+end_src
+
+*** Step 4: Upload and Deploy to GitHub Pages
+
+#+name: Artifact
+#+begin_src yaml
+- name: Upload artifact
+  id: upload-artifact
+  uses: actions/upload-pages-artifact@v3
+  with:
+    path: ./content/public
+#+end_src
+
+#+name: deploy
+#+begin_src yaml
+deploy:
+  if: ${{ github.event_name == 'push' }}
+  needs: build
+  permissions:
+    pages: write
+    id-token: write
+  environment:
+    name: github-pages
+    url: ${{ steps.deployment.outputs.page_url }}
+  runs-on: ubuntu-latest
+  steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+#+end_src
+
+** Closing Thoughts
+
+This setup isn't the most minimal nor optimal, but it works quite well. You have the ability to write your entire website in Org-mode, export it using `ox-hugo`, and deploy everything with a single push to GitHub.
+
+The approach is (for me) quite enjoyable, as once setup, I can quickly add an entry to the website without leaving emacs.
+
+If you're allergic to clicking through CMS dashboards and want to spend time writing content, this method might be something for you.
+
+
+The grass isn't greener - the weeds just grow differently. Choose the problems you enjoy solving.
