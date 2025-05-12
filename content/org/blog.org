@@ -194,15 +194,7 @@ Want to process all `.org` files?
 
 #+begin_src shell
 - name: Export Org files to Markdown
-  run: |
-    for f in ./content/org/*.org; do
-      emacs "$f" --batch \
-        -L "$(pwd)/tomelr" \
-        -L "$(pwd)/ox-hugo" \
-        -l "$(pwd)/ox-hugo/ox-hugo.el" \
-        --eval='(org-hugo-export-wim-to-md t)' \
-        --kill
-    done
+        run: for f in ./content/org/*.org; do emacs "$f" --batch -L "$(pwd)/tomelr" -L "$(pwd)/ox-hugo" -l "$(pwd)/ox-hugo/ox-hugo.el" --eval='(org-hugo-export-wim-to-md t)' --kill; done
 #+end_src
 
 *** Step 3: Run Hugo
@@ -288,3 +280,4 @@ If you're allergic to clicking through CMS dashboards and want to spend time wri
 
 
 The grass isn't greener - the weeds just grow differently. Choose the problems you enjoy solving.
+
