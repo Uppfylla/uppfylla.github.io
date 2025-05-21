@@ -281,3 +281,85 @@ If you're allergic to clicking through CMS dashboards and want to spend time wri
 
 The grass isn't greener - the weeds just grow differently. Choose the problems you enjoy solving.
 
+
+
+* Static and dynamic linking with Zig
+:PROPERTIES:
+:EXPORT_FILE_NAME: zig-static-dynamic-linking
+:EXPORT_HUGO_SECTION: blog
+:EXPORT_HUGO_FRONT_MATTER_FORMAT: yaml
+:END:
+
+#+begin_src yaml :front_matter_extra t
+meta_title: "Linking with zig."
+description: "The post describes how to link static and dynamic libraries with zig."
+date: 2025-05-18
+categories: ["Zig"]
+author: "W L"
+tags: ["zig", "linking"]
+draft: false
+#+end_src
+
+
+Full example can be found at [[https://github.com/Uppfylla/uppfylla.github.io/tree/main/content/examples/zig/linking][github]].
+
+** Env
+#+name: Zig version
+#+begin_src shell
+zig version
+#+end_src
+
+#+RESULTS: Zig version
+: 0.14.0
+
+** Goal
+The goal is to demonstrate how static and dynamic linking can be done using zig.
+
+Demonstrating this, we'd build a python client for dynamic linking and a rust client for static.
+
+** Function to export
+
+We'll export the `add` function automatically generated with the `zig init` command.
+
+#+name: root.zig
+#+begin_src zig :tangle ../examples/zig/linking/src/root.zig
+// Tangled from content/org/blog.org
+const std = @import("std");
+pub export fn add(a: i32, b: i32) i32 {
+    return a + b;
+}
+#+end_src
+
+** Build file
+:PROPERTIES:
+:header-args: :comments no :mkdirp yes :tangle "../examples/zig/linking/build.zig" :noweb tangle
+:END:
+Let's define our build function
+
+#+name: Define build
+#+begin_src zig
+pub fn build(b: *std.Build) !void {
+#+end_src
+
+*** Steps
+
+This is not too exciting, define what steps we'd like to perform.
++ Build library
++ Build Rust client
++ Build Python client
+
+#+begin_src zig 
+const steps = .{
+    .lib_build = b.step("build:lib", "Builds the library."),
+    .rust_client = b.step("clients:rust", "Builds Rust Client with lib"),
+    .python_client = b.step("clients:python", "Builds Python Client with lib"),
+};
+#+end_src
+
+
+
+#+name: Close bracket
+#+begin_src zig
+}
+#+end_src
+
