@@ -943,7 +943,7 @@ Don't forget to let rust know where to the static library is located.
 
 #+begin_src shell :tangle no
 cd src/clients/rust
-RUSTFLAGS="-L ../lib/x86_64-linux-gnu.2.27" cargo run
+RUSTFLAGS="-L ../lib/x86_64-linux-gnu.2.27 -l static=add" cargo run
 #+end_src
 
 **** Close build function

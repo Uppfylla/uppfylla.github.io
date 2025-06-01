@@ -40,3 +40,6 @@ content/content
 __pycache__/
 .zig-cache/
 *.so
+*.a
+
+target/
