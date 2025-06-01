@@ -280,7 +280,7 @@ If you're allergic to clicking through CMS dashboards and want to spend time wri
 
 
 The grass isn't greener - the weeds just grow differently. Choose the problems you enjoy solving.
-* Linking Zig libraries to other languages
+* Zig and the art of Language Interoperability: A guide on Static & Dynamic Linking
 :PROPERTIES:
 :EXPORT_FILE_NAME: zig-static-dynamic-linking
 :EXPORT_HUGO_SECTION: blog
@@ -288,26 +288,55 @@ The grass isn't greener - the weeds just grow differently. Choose the problems y
 :END:
 
 #+begin_src yaml :front_matter_extra t
-meta_title: "Linking with zig."
+meta_title: "Linking Zig Across Language."
 description: "The post describes how to link static and dynamic zig libraries with examples for rust and python."
 date: 2025-05-18
 categories: ["Zig"]
 author: "W L"
-tags: ["zig", "linking"]
+tags: ["Zig", "static linking", "dynamic linking", "cross-language libraries", "Zig interoperability", "Python FFI", "Rust FFI", "C ABI", "Rust", "Python"]
 draft: true
 #+end_src
 
-Creating cross language libraries can be powerful technique, though not always beneficial. Hypothetically, if you've written a high performance library in Zig but the customer request usage of another programming language. You may still reuse your Zig performance and the build system enables you to do this (quite) smoothly...
+#+begin_quote
+The limits of my language mean the limits of my world. - L. Wittgenstein
+#+end_quote
 
-In this guide, we'll explore Zig's build system and it's interoperability capabilities to make cross-language library straightforward. We'll build a complete example that demonstrates both static and dynamic linking approaches, giving you the foundation to create your own cross-language libraries.
+Imprisoned by language, impossible to escape, we have to learn how to navigate within it. Programming languages are just a way to navigate this inescapable restriction, a dialect that has the power to reshape how we think but not how the computer works.
+
+There exist many programming languages, and the language you utilize today might not apply to the use case of tomorrow. General-purpose languages such as C are surviving because of their broad application and low-level capabilities. Zig, a somewhat recent programming language, is aiming to be a general-purpose programming language and toolchain for maintaining robust, optimal, and reusable software.
+
+Zig has high-performance capabilities, and you might've wondered how you can use Zig with, for example, your existing Python or Rust projects.
+
+This comprehensive guide shows you exactly how to create cross-language libraries using Zig's powerful build system and linking capabilities.
 
 Full example can be found at [[https://github.com/Uppfylla/uppfylla.github.io/tree/main/content/examples/zig/linking][github]].
+*** Why Zig for Cross-Language Libraries?
+Zig excels at creating interoperable libraries because of its:
 
-** References
-+ [[https://github.com/tigerbeetle/tigerbeetle][Tigerbeetle]] - Great project and development philosophy, please have a look.
+- Zero-cost C interoperability - No wrapper overhead
+- Cross-compilation support - Build for any target
+- Powerful build system - Automate complex builds
+- Memory safety - No hidden allocations!
+
+*** What You'll Learn
+
+- Create static and dynamic libraries in Zig
+- Build Python bindings using dynamic linking
+- Integrate Rust clients with static linking
+- Learn about Zig's build system for cross-compilation
+- Understand linking strategies and their trade-offs
+
+** References & Further Reading
+
+#+begin_quote
+We're standing on the shoulders of giants
+#+end_quote
+
++ [[https://github.com/tigerbeetle/tigerbeetle][Tigerbeetle]] - Great project and development philosophy, great reference for anyone who'd like to learn in-depth about software and development, please have a look.
 + [[https://www.youtube.com/watch?v=PgulOEQXB9E][Zig in depth]] - Great tutorial series , please go give "Dude the Builder" some support.
-+ [[https://ziglang.org/documentation/0.14.1/#Exporting-a-C-Library][Zig Documentation]] - Obviously z
-** Environment
++ [[https://ziglang.org/documentation/0.14.1/#Exporting-a-C-Library][Zig Documentation]] - Obviously.
+
+** Prerequisites & Environment Setup
 
 #+name: Zig version
 #+begin_src shell
@@ -317,19 +346,11 @@ zig version
 #+RESULTS: Zig version
 : 0.14.0
 
-This tutorial targets Zig =0.14.0=, while newer versions may work, pinning to a specific version ensures our examples remain accurate and functional.
+Using a pinned version ensures all examples work correctly and builds remain reproducible.
 
-** Goal
+** Creating our Exportable Zig Function
 
-Our goal is to demonstrate how linking work in practice using Zig. We'll create a simple function in Zig and then show how to consume it from different programming languages.
-
-Without too much thought, we'll build a Python client that uses dynamic linking and a Rust client that uses static linking. With the purpose to help you understand each strategies benefits and drawbacks.
-
-*Why This Matters*:  Static linking creates self-contained applications that are easy to deploy but potentially larger in size. Dynamic linking enables code sharing and updates but requires careful dependency management. Linking strategies are important strategies to build robust software systems. However, it can be tricky and not always applicable to your usecase so please carefully consider the advantages before diving into this rabbit hole.
-
-** Function to export
-
-Let's consider the library to export, it contains one simple =add= function that we'll aim to export to other programming languages. It's not too exciting but the key insight here is that for a function to be callable from other languages using , it must be compatible with the C Application Binary Interface (ABI) which is achieved in Zig by utilizing the export keyword or =@export= builtin function can be used to make a variable available to other objects at link time. In both cases, the type of the variable must be C ABI compatible meaning that virtually most programming languages can interpret.
+The foundation of cross-language interoperability is C ABI compatibility. Here's our simple add function that we'll export to other languages:
 
 #+name: root.zig
 #+begin_src zig :tangle ../examples/zig/linking/src/root.zig
@@ -351,12 +372,32 @@ pub fn add(a: i32, b: i32) callconv(.C) i32 {
 }
 #+end_src
 
+Key Points:
+- =callconv(.C)= - Ensures C calling conventions
+- =@export()= - Makes function available to other languages
+- ~link_libc~ requirement - Needed for symbol export
+** Understanding Linking Strategies
+
+*** Static Linking
+
+  Self-contained executables - No external dependencies
+ Easy deployment - Single binary distribution
+ Larger file sizes - Code included in each binary
+ No shared updates - Must recompile to update library
+
+*** Dynamic Linking
+
+ Smaller executables - Shared library loaded at runtime
+ Code sharing - Multiple programs use same library
+ Easy updates - Update library without recompiling apps
+ Dependency management - Must ensure library availability
+
 ** Build system
 :PROPERTIES:
 :header-args: :comments no :mkdirp yes :tangle "../examples/zig/linking/build.zig" :noweb tangle
 :END:
 
-Zig's build system is powerful, enabling us to create complex, multi-target builds with clean, readable configuration. In this sub-chapter we'll breakdown how to structure the build file with the purpose of linking.
+Zig's build system is the key to seamless cross-language integration. Let's break down the essential components in the following sub-chapters.
 
 *** Platform and Architecture Configuration
 
@@ -364,24 +405,28 @@ Before diving into the build logic, we need to understand how Zig handles cross-
 
 In this example we'll use the following; it's possible that you might have to change these in order to match your system.
 
+Target specification;
+
 #+name: arch-os-abi
 #+begin_src zig :tangle no
 "x86_64-linux-gnu.2.27"
 #+end_src
+
+Architecture and OS;
 
 #+name: arch-os
 #+begin_src zig :tangle no
 "x86_64-linux"
 #+end_src
 
-Target specification for the binary. It specifies the CPU architecture (x86_64), operating system (Linux), ABI (GNU), and minimum gnu (glibc) version (2.27).
+
+CPU optimizations;
 
 #+name: cpu-features
 #+begin_src zig :tangle no
 "x86_64_v3+aes"
 #+end_src
 
-The CPU features specification enables processor-specific optimizations. The "x86_64_v3" designation refers to a specific microarchitecture level, while "+aes" enables AES instruction set extensions. These optimizations can significantly improve performance for compute-intensive operations.
 
 *** Imports
 
@@ -409,21 +454,14 @@ comptime {
 }
 #+end_src
 
-Do compatibility check at compile-time to avoid possibly confusing runtime errors and making it immediately clear what needs to be fixed.
+Do a compatibility check at compile-time to avoid possibly confusing runtime errors and make it immediately clear what needs to be fixed.
 
-This could ofcourse be done in different ways, we could also use ~std.SemanticVersion~ but for the sake of the demo we'd like to keep it simple.
+*Why version checking matters*: Zig evolves rapidly - this ensures your build scripts work reliably and provide clear error messages.
 
-#+begin_src zig :tangle no
-const zversion = std.SemanticVersion{
-    .major = 0,
-    .minor = 14,
-    .patch = 0,
-};
-#+end_src
+(This could of course be done in different ways, we could also use ~std.SemanticVersion~ but for the sake of the demo we'd like to keep it simple.)
 
-*Why Version Checking Matters*: Zig is still evolving rapidly, by enforcing a specific version requirement, we ensure our build scripts work reliably and provide clear error messages when developers use incompatible versions.
+*** Library Build Function
 
-*** Building library functionality
 
 #+name: Building lib function
 #+begin_src zig
@@ -434,33 +472,11 @@ fn build_lib(
         optimize: std.builtin.OptimizeMode,
     },
 ) void{
-
-
     const query = std.Target.Query.parse(.{
             .arch_os_abi = <<arch-os-abi>>,
             .cpu_features = <<cpu-features>>,
     }) catch unreachable;
     const resolved_target = b.resolveTargetQuery(query);
-
-    //const shared_lib = b.addSharedLibrary(.{
-    //    .name = "lib",
-    //    .root_source_file = b.path("src/root.zig"),
-    //    .target = options.target,
-    //    .optimize = options.optimize,
-    //});
-
-    //shared_lib.linkLibC();
-
-    //const static_lib = b.addStaticLibrary(.{
-    //    .name = "lib",
-    //    .root_source_file = b.path("src/root.zig"),
-    //    .target = options.target,
-    //    .optimize = options.optimize,
-    //});
-
-    //static_lib.pie = true;
-    //static_lib.bundle_compiler_rt = true;
-    //static_lib.linkLibC();
 
     const shared = b.addSharedLibrary(.{
             .name = "add",
@@ -521,14 +537,14 @@ fn build_lib(
 }
 #+end_src
 
-*Understanding the Build Function*: Here we creating a static library from =root.zig=.
+*Understanding the Build Function*: Here we're creating a static library from =root.zig=.
 + ~std.Build~ - type contains the information used by the build runner.
-+ ~std.Build.Step~ - a "step" of our build process with it's own dependencies that need to finish before this step.
++ ~std.Build.Step~ - a "step" of our build process with its own dependencies that need to finish before this step.
 + ~options~ - struct parameter pattern provides clean, typed configuration options. We'll tend to follow this pattern throughout the article.
   + ~std.Build.ResolvedTarget~ - Resolved target to build, used for cross-compilation.
   + ~std.builtin.OptimizeMode~ - Optimization configurations.
 
-*** Building Python client
+*** Python Integration with Dynamic Linking
 
 #+name: py-bindings-destination
 #+begin_src zig :tangle no
@@ -536,14 +552,13 @@ fn build_lib(
 #+end_src
 
 
-Building libraries for Python consumption involves some interesting challenges. Python's dynamic nature and C extension API require careful attention to memory management, error handling, and type conversion.
+Python integration uses dynamic linking for flexibility and easy updates. We'll auto-generate Python bindings at build time.
 
 #+name: Building python client
 #+begin_src zig
 fn build_python_client(b: *std.Build, steps: *std.Build.Step) void {
 #+end_src
 
-*Python Binding Generation*: The approach we'll take involves automatically generating Python binding code at build time. This ensures consistency between our Zig API and the Python interface while reducing overhead with manual maintenance.
 
 #+name: Store py info
 #+begin_src zig :noweb yes
@@ -587,9 +602,6 @@ const PythonBuildStep = struct {
     }
 };
 #+end_src
-*Custom Build Steps Explained:* The PythonBuildStep structure manages the process of running a Zig function to generate Python bindings, capturing its output, and writing it to the appropriate file.
-
-The make_python function handles the actual file generation which is called during the Step, while the init function sets up the build step dependencies. We've structured it this way in order to keep persistent data such as ~step~ in the steps make function.
 
 **** Creating our build query
 
@@ -601,26 +613,11 @@ The make_python function handles the actual file generation which is called duri
         steps.dependOn(&bindings.step);
 #+end_src
 
-*Dynamic Library Configuration*: This section creates a shared library (.so file in our case) that Python can load at runtime. The linkLibC() call is essential for C ABI compatibility, enabling Python's ctypes module to call our functions correctly.
-
 #+name: Close python build function bracket
 #+begin_src zig
 }
 #+end_src
 
-
-**** Python example usage
-:PROPERTIES:
-:header-args: :comments no :mkdirp yes :tangle "../examples/zig/linking/src/clients/python/src/example.py" :noweb tangle
-:END:
-#+begin_src python
-from lib import lib
-a = 1
-b = 2
-for i in range(10):
-    print(f"Calling add ({a*i}+{b*i}) from python {lib.zig_add(a*i,b*i)}")
-#+end_src
-*Integration Simplicity*: Notice how clean the Python interface is. The complexity of cross-language binding is hidden behind a simple function call. The Python developer doesn't need to understand Zig internals or memory management details just call our API.
 
 **** Python bindings
 :PROPERTIES:
@@ -670,7 +667,7 @@ The ~@setEvalBranchQuota~  changes the maximum number of backwards branches that
 
 It's not 100% necessary in this example, however it becomes relevant in case we're looking to expand our API.
 
-***** Python Lib
+***** Python Library Loader
 :PROPERTIES:
 :header-args: :comments no :mkdirp yes :tangle "../examples/zig/linking/src/clients/python/src/lib.py" :noweb tangle
 :END:
@@ -681,24 +678,43 @@ It's not 100% necessary in this example, however it becomes relevant in case we'
 from ctypes import CDLL
 from pathlib import Path
 def _load_lib():
-    """ Loads the library, assumes the host machine plattform. """
+    """ Loads the library, assumes the host machine platform. """
     path = Path(__file__).parent.parent.parent / "lib" / "x86_64-linux-gnu.2.27/libadd.so"
     return CDLL(str(path))
 
 lib = _load_lib()
 #+end_src
 
-We can now load and expose our library to python.
+We can now load and expose our library to Python.
 
 
-*** Building Rust client
+**** Python example usage
+:PROPERTIES:
+:header-args: :comments no :mkdirp yes :tangle "../examples/zig/linking/src/clients/python/src/example.py" :noweb tangle
+:END:
+#+begin_src python
+from lib import lib
+a = 1
+b = 2
+for i in range(10):
+    print(f"Calling add ({a*i}+{b*i}) from python {lib.zig_add(a*i,b*i)}")
+#+end_src
+
+*Build and run:*
+
+#+begin_src shell :tangle no :results none
+zig build clients:python
+python3 src/clients/python/src/example.py
+#+end_src
+
+*** Rust Integration with Static Linking
 
 #+name: rust-lib-destination
 #+begin_src zig :tangle no
 "./src/clients/rust/src/lib.rs"
 #+end_src
 
-This sub-chapter is essentially the same as building our python client .. we'll describe less .. [TODO]
+Rust integration uses static linking for self-contained, high-performance executables.
 
 #+name: Building rust client
 #+begin_src zig
@@ -706,8 +722,7 @@ fn build_rust_client(b: *std.Build, steps: *std.Build.Step ) void {
 #+end_src
 
 
-Recreating the buildstep struct for Rust, which could be made generic as the content doesn't change too much. However, I'm under the impression that it would introduce additional complexity and make it more difficult to understand. Thus, for the sake of this guide, we'll keep them separated.
-
+Recreating the buildstep struct for Rust, this could be made generic as the content doesn't change too much. However, I'm under the impression that it would introduce additional complexity and make it more difficult to understand. Thus, for the sake of this guide, we'll keep them separated.
 
 #+name: Store rust info
 #+begin_src zig :noweb yes
@@ -715,7 +730,7 @@ const RustBuildStep = struct {
     source: std.Build.LazyPath,
     step: std.Build.Step,
 
-    // Ofcourse this could become more generic..
+    // Of course this could become more generic..
     fn make_rust(step: *std.Build.Step, prog_node: std.Build.Step.MakeOptions) anyerror!void {
             _ = prog_node; // Not needed in this example..
             const _b = step.owner;
@@ -742,7 +757,7 @@ const RustBuildStep = struct {
                         .id = .custom,
                         .name = _b.fmt("Generate rust : {s}", .{std.fs.path.basename(<<rust-lib-destination>>)}),
                         .owner = _b,
-                        .makeFn = make_rust, // This could ofcourse be more elegant, e.g. have a struct for all generated code with member functions...
+                        .makeFn = make_rust, // This could of course be more elegant, e.g. have a struct for all generated code with member functions...
                 }),
         };
         build_step.source.addStepDependencies(&build_step.step);
@@ -751,8 +766,6 @@ const RustBuildStep = struct {
 };
 #+end_src
 
-
-We don't need to call link ..
 
 #+begin_src zig :noweb yes
         const bindings = RustBuildStep.init(
@@ -768,7 +781,7 @@ We don't need to call link ..
 }
 #+end_src
 
-**** Rust bindings
+**** Rust bindings generator
 :PROPERTIES:
 :header-args: :comments no :mkdirp yes :tangle "../examples/zig/linking/src/clients/rust/bindings.zig" :noweb tangle
 :END:
@@ -813,15 +826,10 @@ pub fn main() !void {
 }
 #+end_src
 
-The ~@setEvalBranchQuota~  changes the maximum number of backwards branches that compile-time code execution can use before giving up and making a compile error.
-
-It's not 100% necessary in this example, however it becomes relevant in case we're looking to expand our API.
-
 **** Rust example usage
 :PROPERTIES:
 :header-args: :comments no :mkdirp yes :tangle "../examples/zig/linking/src/clients/rust/src/main.rs" :noweb tangle
 :END:
-In order to call external functions we need to use unsafe, please have a look at [[https://doc.rust-lang.org/book/ch20-01-unsafe-rust.html][the rust documentation.]]
 #+begin_src rust
 use example::zig::zig_add as add;
 
@@ -850,9 +858,10 @@ edition = "2021"
 [dependencies]
 #+end_src
 
-In `examples/zig/linking/src/clients/rust`
 #+begin_src shell :results no :tangle no
-cargo run --release
+zig build clients:rust
+cd src/clients/rust
+RUSTFLAGS="-L ../lib/x86_64-linux-gnu.2.27 -l static=add" cargo run
 #+end_src
 
 
@@ -894,7 +903,7 @@ Even though we don't necessarily need this in the example, let's optimize for re
 
 The =ReleaseSafe= optimization mode provides performance optimizations while retaining safety checks.
 
-***** Building our library
+**** Building our library and clients
 #+name: Build lib
 #+begin_src zig
         build_lib(b, steps.build_lib, .{
@@ -913,37 +922,11 @@ Now to build a specific language client with the library
         build_python_client(b, steps.python_client);
 #+end_src
 
-*Client Build Execution*: The Python client build demonstrates how different language integrations can be managed within the same build system. Each client type can have its own build logic while sharing common library components.
-
-For example;
-
-#+begin_src shell :tangle no :results none
-zig build clients:python
-#+end_src
-
-Then run
-#+begin_src shell :tangle no
-python3 src/clients/python/src/example.py
-#+end_src
-
-And ofcourse the same goes for building rust client
+And of course the same goes for building the Rust client
 
 #+begin_src zig
         // E.g. rust client
         build_rust_client(b, steps.rust_client);
-#+end_src
-
-For example;
-
-#+begin_src shell :tangle no :results none
-zig build clients:rust
-#+end_src
-
-Don't forget to let rust know where to the static library is located.
-
-#+begin_src shell :tangle no
-cd src/clients/rust
-RUSTFLAGS="-L ../lib/x86_64-linux-gnu.2.27" cargo run
 #+end_src
 
 **** Close build function
@@ -966,11 +949,15 @@ Steps:
   clients:python               Builds Python Client with lib
 #+end_src
 
-** Key concepts (TODO)
-+ Understanding Linking Strategies
-+ Memory Management Across Language Boundaries
-+ Error Handling Translation
-+ Performance Considerations
-+ Testing Strategies
+** Conclusion
 
-This comprehensive approach to cross-language library development with Zig provides a solid foundation for building efficient, maintainable systems that leverage the "best" (󰱸) of multiple programming languages. The combination of Zig's performance, safety, and excellent interoperability makes it an good alternative to more common approaches such as C for creating libraries that need to work across language boundaries...
+Zig's excellent C interoperability and cross-compilation capabilities make it an outstanding choice for creating cross-language libraries. Even though it's not always applicable and might introduce complexity to your software.
+
+The combination of:
+
++ Zero-overhead C ABI compatibility
++ Powerful build system automation
++ Memory safety without runtime costs
++ Static and dynamic linking flexibility
+
+Makes Zig an attractive alternative for building libraries that need to work across multiple programming languages.
