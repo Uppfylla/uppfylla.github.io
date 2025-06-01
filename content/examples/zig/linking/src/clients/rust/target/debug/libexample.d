@@ -1,0 +1,1 @@
+/home/wim/git/uppfylla/uppfylla.github.io/content/examples/zig/linking/src/clients/rust/target/debug/libexample.rlib: /home/wim/git/uppfylla/uppfylla.github.io/content/examples/zig/linking/src/clients/rust/src/lib.rs
