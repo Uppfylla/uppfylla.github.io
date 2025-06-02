@@ -294,7 +294,7 @@ date: 2025-05-18
 categories: ["Zig"]
 author: "W L"
 tags: ["Zig", "static linking", "dynamic linking", "cross-language libraries", "Zig interoperability", "Python FFI", "Rust FFI", "C ABI", "Rust", "Python"]
-draft: true
+draft: false
 #+end_src
 
 #+begin_quote
