@@ -19,33 +19,11 @@ fn build_lib(
         optimize: std.builtin.OptimizeMode,
     },
 ) void{
-
-
     const query = std.Target.Query.parse(.{
             .arch_os_abi = "x86_64-linux-gnu.2.27",
             .cpu_features = "x86_64_v3+aes",
     }) catch unreachable;
     const resolved_target = b.resolveTargetQuery(query);
-
-    //const shared_lib = b.addSharedLibrary(.{
-    //    .name = "lib",
-    //    .root_source_file = b.path("src/root.zig"),
-    //    .target = options.target,
-    //    .optimize = options.optimize,
-    //});
-
-    //shared_lib.linkLibC();
-
-    //const static_lib = b.addStaticLibrary(.{
-    //    .name = "lib",
-    //    .root_source_file = b.path("src/root.zig"),
-    //    .target = options.target,
-    //    .optimize = options.optimize,
-    //});
-
-    //static_lib.pie = true;
-    //static_lib.bundle_compiler_rt = true;
-    //static_lib.linkLibC();
 
     const shared = b.addSharedLibrary(.{
             .name = "add",
@@ -161,7 +139,7 @@ const RustBuildStep = struct {
     source: std.Build.LazyPath,
     step: std.Build.Step,
 
-    // Ofcourse this could become more generic..
+    // Of course this could become more generic..
     fn make_rust(step: *std.Build.Step, prog_node: std.Build.Step.MakeOptions) anyerror!void {
             _ = prog_node; // Not needed in this example..
             const _b = step.owner;
@@ -188,7 +166,7 @@ const RustBuildStep = struct {
                         .id = .custom,
                         .name = _b.fmt("Generate rust : {s}", .{std.fs.path.basename("./src/clients/rust/src/lib.rs")}),
                         .owner = _b,
-                        .makeFn = make_rust, // This could ofcourse be more elegant, e.g. have a struct for all generated code with member functions...
+                        .makeFn = make_rust, // This could of course be more elegant, e.g. have a struct for all generated code with member functions...
                 }),
         };
         build_step.source.addStepDependencies(&build_step.step);
