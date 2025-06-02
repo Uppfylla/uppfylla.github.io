@@ -37,3 +37,9 @@ yarn.lock
 
 content/content
 *.xcf
+__pycache__/
+.zig-cache/
+*.so
+*.a
+
+target/
