@@ -57,7 +57,7 @@ show_categories = true
 [announcement]
 enable = true
 expire_days = 7
-content = "We'd like your feedback, please send any inquiries or feedback to info@uppfyll.com"
+content = "We'd like your feedback, please send let us know : info@uppfyll.com"
 
 # seo meta data for OpenGraph / Twitter Card
 # seo module: https://github.com/gethugothemes/hugo-modules/tree/master/seo-tools/basic-seo
@@ -81,7 +81,7 @@ mastodon = "" # Your verification code
 # cookies
 # cookies module: https://github.com/gethugothemes/hugo-modules/tree/master/components/cookie-consent
 [cookies]
-enable = false
+enable = true
 expire_days = 60
 content = "This site uses cookies. By continuing to use this website, you agree to their use."
 button = "I Accept"
