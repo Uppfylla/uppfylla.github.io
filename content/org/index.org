@@ -29,7 +29,7 @@ features:
     button:
       enable: true 
       label: "Learn more"
-      link: "#"
+      link: "https://uppfyll.com/services"
 
   - title: "From Search to Lead—Automate Your Real-Estate Workflow."
     image: "/images/service-2.png"
