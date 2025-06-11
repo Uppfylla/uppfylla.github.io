@@ -26,7 +26,14 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
       - name: Export Org file to Markdown
-        run: for f in ./content/org/*.org; do emacs "$f" --batch -L "$(pwd)/tomelr" -L "$(pwd)/ox-hugo" -l "$(pwd)/ox-hugo/ox-hugo.el" --eval='(org-hugo-export-wim-to-md t)' --kill; done
+        run: |
+          for f in ./content/org/*.org; do emacs "$f" --batch -L "$(pwd)/tomelr" -L "$(pwd)/ox-hugo" -l "$(pwd)/ox-hugo/ox-hugo.el" --eval='(org-hugo-export-wim-to-md t)' --kill; done
+          echo "Ugly hack, should resolve with tangle later ... TODO fix me"
+          mv content/content/english/content/* content/content/english
+          rm -rf content/content/english/content
+          mv content/content/english/pages/* content/content/english
+          rm -rf content/content/english/pages/
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:

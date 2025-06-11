@@ -4,10 +4,10 @@
 
 * Pages
 :PROPERTIES:
-:EXPORT_FILE_NAME: _index
 :EXPORT_HUGO_SECTION: pages
 :EXPORT_HUGO_FRONT_MATTER_FORMAT: yaml
 :END:
+
 #+begin_src yaml :front_matter_extra t
 meta_title: "Pages"
 description: "Our Pages."
@@ -19,6 +19,7 @@ description: "Our Pages."
 :EXPORT_HUGO_SECTION: pages
 :EXPORT_HUGO_FRONT_MATTER_FORMAT: yaml
 :END:
+
 #+begin_src yaml :front_matter_extra t
 meta_title: "Our products"
 description: "Products."
@@ -37,6 +38,7 @@ TODO
 :EXPORT_HUGO_SECTION: pages
 :EXPORT_HUGO_FRONT_MATTER_FORMAT: yaml
 :END:
+
 #+begin_src yaml :front_matter_extra t
 meta_title: "Privacy policy"
 description: "Privacy policy."
