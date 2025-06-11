@@ -43,3 +43,6 @@ __pycache__/
 *.a
 
 target/
+
+ox-hugo/
+tomelr/

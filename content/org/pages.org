@@ -2,6 +2,17 @@
 #+HUGO_BASE_DIR: ../content/english
 
 
+* Pages
+:PROPERTIES:
+:EXPORT_FILE_NAME: _index
+:EXPORT_HUGO_SECTION: pages
+:EXPORT_HUGO_FRONT_MATTER_FORMAT: yaml
+:END:
+#+begin_src yaml :front_matter_extra t
+meta_title: "Pages"
+description: "Our Pages."
+#+end_src
+
 * Services
 :PROPERTIES:
 :EXPORT_FILE_NAME: services

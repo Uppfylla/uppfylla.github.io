@@ -2,5 +2,5 @@
 [en]
 languageName = "En"
 languageCode = "en-us"
-contentDir = "content/english/content" # ... I know
+contentDir = "content/english/" # ... I know
 weight = 1
